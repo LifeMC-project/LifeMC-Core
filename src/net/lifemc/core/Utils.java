@@ -1,31 +1,5 @@
 package net.lifemc.core;
 
-import com.intellectualcrafters.plot.api.PlotAPI;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
-import net.kugick.FarmLife.gameplay.PlayerConfigManager;
-import net.kugick.FarmLife.gameplay.RegionProtection;
-import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_12_R1.BlockPosition;
-import net.minecraft.server.v1_12_R1.TileEntitySkull;
-import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.Skull;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.material.Crops;
-import org.bukkit.material.MaterialData;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -36,10 +10,35 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.SkullType;
+import org.bukkit.block.Block;
+import org.bukkit.block.Skull;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.plugin.PluginManager;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
+
+import com.intellectualcrafters.plot.api.PlotAPI;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+
+import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
+import net.minecraft.server.v1_12_R1.BlockPosition;
+import net.minecraft.server.v1_12_R1.TileEntitySkull;
+
 public class Utils {
 
 	public static final String _21 = "§";
-	public static PlotAPI plotAPI = new PlotAPI();
+	
 	////////////////////
 	//  TITLE MANAGER //
 	////////////////////
@@ -53,138 +52,6 @@ public class Utils {
 	private static Class<?> blockPosition;
 	private static Constructor<?> blockPositionConstructor;
 	private static Method getWorldHandle, getTileEntity, setGameProfile;
-	
-	/////////////////////////
-	//  PlOTSQUARED & FARM //
-	/////////////////////////
-	Plugin plotsquared = Bukkit.getServer().getPluginManager().getPlugin("PlotSquared");
-
-	public static void teleportToFarm(Player p) {
-		Bukkit.dispatchCommand(p, "plot home");
-	}
-
-	public static void claimFarm(Player p) {
-		Bukkit.broadcastMessage("claimFarm - " + p.getName());
-
-		Bukkit.dispatchCommand(p, "plot auto");
-		//Casting a commands for skript
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "farm create " + p.getName());
-	}
-
-	public static void deleteFarm(Player p) {
-		
-		if(farmExist(p)) {
-		Bukkit.broadcastMessage("deleteFarm - " + p.getName());
-
-		Bukkit.dispatchCommand(p, "plot home");
-		}
-		p.sendMessage(coloroze("&c"));
-
-		plotAPI.getPlot(p).deletePlot(null);
-
-		RegionProtection.removeFarmsRegion(p);
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mvtp " + p.getName() + " Spawn");
-	}
-
-	public static boolean farmExist(Player p) {
-		if(plotAPI.getPlayerPlotCount(Bukkit.getWorld("FarmLife"), p.getPlayer()) == 1) {
-			return true;
-		}
-		else return false;
-	}
-
-	////////////////////////////
-	//  Check if fully grown  //
-	////////////////////////////
-	public static boolean isFullyGrown(Block block) {
-		MaterialData md = block.getState().getData();
-
-		if(md instanceof Crops) {
-			return (((Crops) md).getState() == CropState.RIPE);
-		}
-		else return false;
-	}
-
-	////////////////////
-	//	  Leveling   //
-	////////////////////
-	public static void PlayerXP(Player p, int i) {
-
-		//TODO Check if the player is the owner of the farm, if so add directly the xp, otherwise get the owner file.
-
-		//XP needed for leveling up
-		//TODO update the function?
-		double mathLevel = (double) 500 * Math.sqrt(PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.Level") - 1);
-		int levelXpCap = (int) mathLevel;
-
-		//Check if we level up
-		if(PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.CurrentXP") + i >= levelXpCap) {
-
-			//Send level up
-			LevelUpFarm(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))),  PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.Level"));
-
-
-		}
-		else{
-			//Add XP and send a notification
-			PlayerConfigManager.setPlayerValue(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.CurrentXP", PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.CurrentXP") + i);
-			PlayerConfigManager.savePlayer(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))));
-			p.sendMessage(ChatColor.GOLD + "+" + i +" farm xp.");
-		}
-	}
-
-	public static void FarmXP(Player p, int i) {
-
-		//Check if the farm is level 100 already	wich is level cap
-		if(PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.Level") == 100) {
-
-
-			//XP needed for leveling up
-			double mathLevel = (double) 500 * Math.sqrt(PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.Level") - 1);
-			int levelXpCap = (int) mathLevel;
-
-			//Check if we level up
-			if(PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.CurrentXP") + i >= levelXpCap) {
-
-				//Send level up
-				LevelUpFarm(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))),  PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.Level"));
-
-
-			}
-			else{
-				//Add XP and send a notification
-				PlayerConfigManager.setPlayerValue(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.CurrentXP", PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.CurrentXP") + i);
-				PlayerConfigManager.savePlayer(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))));
-				p.sendMessage(ChatColor.GOLD + "+" + i +" farm xp.");
-			}
-		}
-
-	}
-
-	public static void LevelUpPlayer(Player p, int i) {
-		//Title + sound
-		titleApi.sendTitle(p, ChatColor.GOLD + "" + ChatColor.BOLD + "LEVEL UP");
-		titleApi.sendSubtitle(p, ChatColor.GRAY + "" + ChatColor.ITALIC + "You reached level: " + i);
-		p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5, 1);
-		//Do unlocking features list?
-
-	}
-
-	public static void LevelUpFarm(Player p, int i) {
-		//Chat popup + sound sent to farm members online
-
-		PlayerConfigManager.setPlayerValue(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.CurrentXP", (int) 0);
-		PlayerConfigManager.setPlayerValue(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.Level", (int) PlayerConfigManager.getPlayerInt(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.Level") + 1);
-		PlayerConfigManager.savePlayer(p);
-
-		for(Player pl : Bukkit.getOnlinePlayers()) {
-			if(pl.getName().contains((CharSequence) PlayerConfigManager.getPlayerList(Bukkit.getPlayer(UUID.fromString(RegionProtection.getRegionStanding(p).toString().replaceAll("farm_", ""))), "Farm.Players"))) {
-				pl.sendMessage(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n" + ChatColor.RESET + ChatColor.GOLD + ChatColor.BOLD + "                  LEVEL UP\n\n" + ChatColor.RESET + ChatColor.GRAY + "" + ChatColor.ITALIC + "      Your farm reached level: " + i + "\n" + ChatColor.RESET + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
-				//Do unlocking features list?
-			}
-		}
-
-	}
 
 	//////////////////
 	// STRING UTILS //
@@ -355,7 +222,7 @@ public class Utils {
 	}
 
 	public static void registerListener(Listener l) {
-		getPluginManager().registerEvents(l, FarmLife.getInstance());
+		getPluginManager().registerEvents(l, Core.getInstance());
 	}
 
 	public static void unregisterListener(Listener l) {

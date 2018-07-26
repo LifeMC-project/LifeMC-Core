@@ -2,5 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/kugick/Downloads/JAR ressources/PermissionsEx-1.23.4.jar"/>
+	<classpathentry kind="lib" path="/Users/kugick/Downloads/JAR ressources/PlotSquared-Bukkit-17.09.29-9480c70-1922.jar"/>
+	<classpathentry kind="lib" path="/Users/kugick/Downloads/JAR ressources/spigot-1.12.jar"/>
+	<classpathentry kind="lib" path="/Users/kugick/Downloads/JAR ressources/TitleManager-2.0.9.jar"/>
+	<classpathentry kind="lib" path="/Users/kugick/Downloads/JAR ressources/worldedit-bukkit-6.1.7.3.jar"/>
+	<classpathentry kind="lib" path="/Users/kugick/Downloads/JAR ressources/worldguard-6.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

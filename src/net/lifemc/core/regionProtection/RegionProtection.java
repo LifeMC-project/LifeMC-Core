@@ -1,5 +1,12 @@
 package net.lifemc.core.regionProtection;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
@@ -9,13 +16,8 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import net.kugick.FarmLife.FarmLife;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
+import net.lifemc.core.Core;
 
 
 public class RegionProtection{	
@@ -45,7 +47,7 @@ public class RegionProtection{
 
 		String id = getRegionID(p);
 
-		FarmLife.getInstance().log.info("Creating farms region protection for player " + p.getName() + ".");
+		Core.getInstance().log.info("Creating farms region protection for player " + p.getName() + ".");
 
 
 		if (mgr.hasRegion(id)) return false;
@@ -95,7 +97,7 @@ public class RegionProtection{
 
 		if (!mgr.hasRegion(id)) return false;
 
-		FarmLife.getInstance().log.info("Removing farms region protection for player " + p.getName() + ".");
+		Core.getInstance().log.info("Removing farms region protection for player " + p.getName() + ".");
 		mgr.removeRegion(id + "_farm");
 		mgr.removeRegion(id + "_path");
 		mgr.removeRegion(id + "_cave");
