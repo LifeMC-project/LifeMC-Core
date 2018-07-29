@@ -1,15 +1,9 @@
 package net.lifemc.core;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import net.minecraft.server.v1_12_R1.BlockPosition;
+import net.minecraft.server.v1_12_R1.TileEntitySkull;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -27,13 +21,15 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.PluginManager;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import com.intellectualcrafters.plot.api.PlotAPI;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-
-import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
-import net.minecraft.server.v1_12_R1.BlockPosition;
-import net.minecraft.server.v1_12_R1.TileEntitySkull;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 public class Utils {
 
@@ -42,7 +38,6 @@ public class Utils {
 	////////////////////
 	//  TITLE MANAGER //
 	////////////////////
-	static TitleManagerAPI titleApi = (TitleManagerAPI) Bukkit.getServer().getPluginManager().getPlugin("TitleManager");
 	private static PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 	
 	//////////////////
@@ -65,12 +60,12 @@ public class Utils {
 	//////////////
 
 	public static String getStringFromArray(String[] array, int startIndex, String separator) {
-		String opt = array[startIndex++];
+		StringBuilder opt = new StringBuilder(array[startIndex++]);
 
 		while (startIndex<array.length)
-			opt += separator + array[startIndex++];
+			opt.append(separator).append(array[startIndex++]);
 
-		return opt;
+		return opt.toString();
 	}
 
 	public static List<String> stringDivider(String s, String seperator) {

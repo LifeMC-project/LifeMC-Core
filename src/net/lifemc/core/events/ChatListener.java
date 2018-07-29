@@ -1,10 +1,10 @@
 package net.lifemc.core.events;
 
+import net.lifemc.core.FarmLifeAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import ru.tehkode.permissions.PermissionUser;
@@ -17,15 +17,14 @@ public class ChatListener implements Listener {
 	public void onChat(AsyncPlayerChatEvent e) {
 		Player player = e.getPlayer();
 
-		//TODO Add Karma and Level API
 		PermissionUser user = PermissionsEx.getUser(player);
 		String staffmessage = ChatColor.translateAlternateColorCodes('&', user.getSuffix()
-				.replace("%level%", "0")
-				.replace("%karma%", "0")
+				.replace("%level%", String.valueOf(FarmLifeAPI.getLevel(player.getUniqueId())))
+				.replace("%karma%", String.valueOf(FarmLifeAPI.getKarma(player.getUniqueId())))
 				.replace("%name%", player.getName()));
 
 		String message = ChatColor.translateAlternateColorCodes('&', user.getPrefix()
-				.replace("%level%", "0")
+				.replace("%level%", String.valueOf(FarmLifeAPI.getLevel(player.getUniqueId())))
 				.replace("%name%", player.getName()));
 
 		for (Player pl : Bukkit.getServer().getOnlinePlayers()) {
