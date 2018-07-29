@@ -64,6 +64,11 @@ public class ConfigManager {
 		}
 	}
 
+	public void unLoadPlayer(UUID id) {
+		if (playerfiles.containsKey(id)) {
+			playerfiles.remove(id);
+		}
+	}
 	//////////////////////////
 	//PLAYER CONFIG MANAGER//
 	///////////////////////// 
