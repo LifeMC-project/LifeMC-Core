@@ -22,7 +22,7 @@ public class ConfigManager {
 		return instance;
 	}
 
-	private void loadPlayer(UUID id) {
+	public void loadPlayer(UUID id) {
 
 		if (playerfiles.containsKey(id)) return;
 
@@ -42,7 +42,6 @@ public class ConfigManager {
 
 	public void setPlayerValue(UUID id, String path, Object value) {
 		loadPlayer(id);
-
 		playerfiles.get(id).set(path, value);
 	}
 

@@ -22,5 +22,8 @@ public class FarmLifeAPI {
 		}
 	}
 
+	public static void setLevel(UUID id, int level) {
+
+	}
 	//TODO Add other data from the Core needed.
 }

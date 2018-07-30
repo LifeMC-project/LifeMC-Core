@@ -18,12 +18,13 @@ public class ChatListener implements Listener {
 		Player player = e.getPlayer();
 
 		PermissionUser user = PermissionsEx.getUser(player);
-		String staffmessage = ChatColor.translateAlternateColorCodes('&', user.getSuffix()
+
+		String staffmessage = ChatColor.translateAlternateColorCodes('&', user.getOption("staffchat")
 				.replace("%level%", String.valueOf(FarmLifeAPI.getLevel(player.getUniqueId())))
 				.replace("%karma%", String.valueOf(FarmLifeAPI.getKarma(player.getUniqueId())))
 				.replace("%name%", player.getName()));
 
-		String message = ChatColor.translateAlternateColorCodes('&', user.getPrefix()
+		String message = ChatColor.translateAlternateColorCodes('&', user.getOption("playerchat")
 				.replace("%level%", String.valueOf(FarmLifeAPI.getLevel(player.getUniqueId())))
 				.replace("%name%", player.getName()));
 
@@ -37,8 +38,7 @@ public class ChatListener implements Listener {
 
 		}
 	}
-	
-	
+
 	/*
  	@EventHandler(priority = EventPriority.NORMAL)
 	public void onChat(AsyncPlayerChatEvent e){

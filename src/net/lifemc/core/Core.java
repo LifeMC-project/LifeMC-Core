@@ -1,6 +1,7 @@
 package net.lifemc.core;
 
 import net.lifemc.core.events.ChatListener;
+import net.lifemc.core.events.PlayerServerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,7 +22,8 @@ public class Core extends JavaPlugin {
 	public void onEnable() {
 		log.info("LifeMC-Core enabled.ß");
 
-		register(new ChatListener());
+		register(new ChatListener(),
+				new PlayerServerListener());
 	}
 
 	private void register(Listener... listeners) {
