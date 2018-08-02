@@ -279,7 +279,6 @@ public class Utils {
 	}
 
 	// SKULL TEXTURES //
-	@SuppressWarnings("deprecation")
 	public static void setSkullTexture(String texture, Block block) {
 		if (block.getType() != Material.SKULL) {
 			byte b = block.getData();
@@ -299,10 +298,10 @@ public class Utils {
 		profile.getProperties().put("textures", new Property("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + skinURL + "\"}}}")));
 		return profile;
 	}
+
 	public static GameProfile getNonPlayerProfileFromTexture(String texture) {
 		GameProfile profile = new GameProfile(UUID.randomUUID(), "Mailbox");
 		profile.getProperties().put("textures", new Property("textures", texture));
 		return profile;
 	}
 }
-//The end

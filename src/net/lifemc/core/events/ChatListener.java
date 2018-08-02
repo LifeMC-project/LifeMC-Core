@@ -39,37 +39,4 @@ public class ChatListener implements Listener {
 		}
 	}
 
-	/*
- 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onChat(AsyncPlayerChatEvent e){
-
-		Player p = e.getPlayer();
-		
-		if(e.getMessage().charAt(0) == '!') {
-			//p.sendMessage("("+e.getMessage().replaceFirst("!", "")+")");
-			e.setCancelled(true);
-		}
-		
-		
-		//Get pex user from database
-		PermissionUser user = PermissionsEx.getUser(p);
-		if(user.inGroup("Administrator")) {
-			e.setFormat(ChatColor.RED + "Administrator" + ChatColor.DARK_GRAY + " : " + ChatColor.DARK_RED + p.getName() + ChatColor.GRAY + " > " + ChatColor.RESET + e.getMessage());
-		}
-		else
-			if(user.inGroup("Player") && !user.inGroup("sub_FarmLife__vip") | user.inGroup("Player") && !user.inGroup("sub_FarmLife_NewFarmer")){
-				e.setFormat(ChatColor.DARK_GREEN + "Farmer" + ChatColor.DARK_GRAY + " : " + ChatColor.GREEN + p.getName() + ChatColor.GRAY + " > " + ChatColor.RESET + e.getMessage());
-			}
-		if(user.inGroup("sub_FarmLife_NewFarmer")){
-			e.setFormat(ChatColor.DARK_GREEN + "New Farmer" + ChatColor.DARK_GRAY + " : " + ChatColor.GREEN + p.getName() + ChatColor.GRAY + " > " + ChatColor.RESET + e.getMessage());
-		}
-		if(user.inGroup("sub_FarmLife_vip")){
-			e.setFormat(ChatColor.GOLD + "VIP Farmer" + ChatColor.DARK_GRAY + " : " + ChatColor.YELLOW + p.getName() + ChatColor.GRAY + " > " + ChatColor.RESET + e.getMessage());
-		}
-		if(user.inGroup("TrialModerator") | user.inGroup("Moderator") | user.inGroup("LeadModerator") | user.inGroup("HeadModerator") | user.inGroup("TrialGamemaster") | user.inGroup("s_Gamemaster") | user.inGroup("LeadGamemaster") | user.inGroup("HeadGamemaster") | user.inGroup("TrialBuilder") | user.inGroup("Builder") | user.inGroup("LeadBuilder") | user.inGroup("HeadBuilder") | user.inGroup("Promoter") | user.inGroup("NewDeveloper") | user.inGroup("Developer") | user.inGroup("LeadDeveloper") | user.inGroup("HeadDeveloper")){
-			e.setFormat(ChatColor.DARK_PURPLE + "Staff" + ChatColor.DARK_GRAY + " : " + ChatColor.LIGHT_PURPLE + p.getName() + ChatColor.GRAY + " > " + ChatColor.RESET + e.getMessage());
-
-		}
-	}
-	 */
 }
